@@ -1,0 +1,25 @@
+{
+  "name": "move-ta-hiring-stack",
+  "owner": {
+    "name": "Move",
+    "email": "adriano@wearemove.com",
+    "url": "https://wearemove.com"
+  },
+  "metadata": {
+    "description": "Move × Claude: The TA Hiring Stack. Move's hiring methodology, packaged as Claude skills for talent acquisition leaders.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "ta-hiring-stack",
+      "source": "./plugins/ta-hiring-stack",
+      "description": "Move's TA hiring stack for Claude: audit job specs against the 2026 market, generate candidate outreach, build interview packs, audit recruiter LinkedIn profiles, and run 60+ hiring lifecycle prompts.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Move",
+        "email": "adriano@wearemove.com",
+        "url": "https://wearemove.com"
+      }
+    }
+  ]
+}
