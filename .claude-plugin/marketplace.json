@@ -13,7 +13,7 @@
     {
       "name": "ta-hiring-stack",
       "source": "./plugins/ta-hiring-stack",
-      "description": "Move x Claude: The TA Hiring Stack. 13 Claude skills across the hiring lifecycle: map the talent market, level and calibrate roles, audit job specs, write outreach, analyse outreach rejections, build screen guides, interview packs and shortlists, review your ATS pipeline, send hiring manager updates, audit recruiter LinkedIn profiles, and run 66 hiring prompts. Built by Move (wearemove.com).",
+      "description": "Move x Claude: The TA Hiring Stack. The 24 Claude skills from Move's 2026 talent acquisition guide, across market intelligence, calibration, outreach, screening, hiring manager enablement and pipeline data, plus a recruiter LinkedIn profile auditor and 66 hiring prompts. Built by Move (wearemove.com).",
       "version": "0.2.0",
       "author": {
         "name": "Move",
