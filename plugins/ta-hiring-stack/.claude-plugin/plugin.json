@@ -1,12 +1,21 @@
 {
   "name": "ta-hiring-stack",
-  "description": "Move × Claude: The TA Hiring Stack. Audit job specs against the 2026 hiring market, generate candidate outreach sequences, build structured interview packs, audit recruiter LinkedIn profiles, and run 60+ prompts across the hiring lifecycle. Built by Move (wearemove.com) from 60+ talent partnerships and 1,000+ hires.",
-  "version": "0.1.0",
+  "description": "Move x Claude: The TA Hiring Stack. 13 Claude skills across the hiring lifecycle: map the talent market, level and calibrate roles, audit job specs, write outreach, analyse outreach rejections, build screen guides, interview packs and shortlists, review your ATS pipeline, send hiring manager updates, audit recruiter LinkedIn profiles, and run 66 hiring prompts. Built by Move (wearemove.com).",
+  "version": "0.2.0",
   "author": {
     "name": "Move",
     "email": "adriano@wearemove.com",
     "url": "https://wearemove.com"
   },
   "homepage": "https://wearemove.com",
-  "keywords": ["talent-acquisition", "recruiting", "hiring", "job-specs", "TA", "sourcing"]
+  "keywords": [
+    "talent-acquisition",
+    "recruiting",
+    "hiring",
+    "job-specs",
+    "sourcing",
+    "interviewing",
+    "pipeline",
+    "TA"
+  ]
 }

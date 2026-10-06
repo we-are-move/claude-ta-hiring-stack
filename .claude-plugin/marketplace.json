@@ -7,14 +7,14 @@
   },
   "metadata": {
     "description": "Move × Claude: The TA Hiring Stack. Move's hiring methodology, packaged as Claude skills for talent acquisition leaders.",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "plugins": [
     {
       "name": "ta-hiring-stack",
       "source": "./plugins/ta-hiring-stack",
-      "description": "Move's TA hiring stack for Claude: audit job specs against the 2026 market, generate candidate outreach, build interview packs, audit recruiter LinkedIn profiles, and run 60+ hiring lifecycle prompts.",
-      "version": "0.1.0",
+      "description": "Move x Claude: The TA Hiring Stack. 13 Claude skills across the hiring lifecycle: map the talent market, level and calibrate roles, audit job specs, write outreach, analyse outreach rejections, build screen guides, interview packs and shortlists, review your ATS pipeline, send hiring manager updates, audit recruiter LinkedIn profiles, and run 66 hiring prompts. Built by Move (wearemove.com).",
+      "version": "0.2.0",
       "author": {
         "name": "Move",
         "email": "adriano@wearemove.com",
