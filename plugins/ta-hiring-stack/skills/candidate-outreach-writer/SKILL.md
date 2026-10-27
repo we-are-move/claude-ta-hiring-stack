@@ -135,7 +135,7 @@ node output_builder.js campaign_config.json <Company>_<Role>_Campaign.docx
 
 Use a sensible filename based on the company and role, underscores instead of spaces. The discovery-call CTA and Move branding are hard-coded inside the builder; you do not add them to the config.
 
-**3d. Return the file.** Present the generated .docx to the user with whatever file-presentation capability this environment has. Do NOT paste the sequence content back into chat. The Word doc is the deliverable. Close with: "Want me to adjust the wedge, the persona description, or any specific touch? Just say what to change."
+**3d. Return the file.** **Deliver straight away.** As soon as the build succeeds, and before writing anything else in chat, call `SendUserFile` once with every file this step produced, `status: "normal"`, `display: "attach"` and a one-line caption naming the role. This puts a file card with a download link in the chat and lists the files in the sidebar. Write the files to `/mnt/user-data/outputs/` when that folder exists, but never rely on that folder alone: always send the card. If the user has a folder connected from their computer, also write the files there with `device_commit_files` (using the `file_uuid`s from `SendUserFile`) and say which folder. Outside Cowork, where `SendUserFile` isn't available, share the files however the environment allows and give their link or path at the top of the reply. Do NOT paste the sequence content back into chat. The Word doc is the deliverable. Close with: "Want me to adjust the wedge, the persona description, or any specific touch? Just say what to change."
 
 If the bash command fails for any reason, debug and retry. Do not fall back to pasting text into chat.
 
