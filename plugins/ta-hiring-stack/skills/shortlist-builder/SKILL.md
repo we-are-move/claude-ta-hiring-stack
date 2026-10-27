@@ -116,7 +116,9 @@ npm ls docx >/dev/null 2>&1 || npm install docx
 node output_builder.js shortlist_config.json <Role>_Shortlist.docx
 ```
 
-Present the file. In chat, give the headline and one line per Progress and Hold candidate. In blind mode, also give the **ID key** (C1 = name…) in chat only, never in the document. Remind the recruiter, in one line, that the recommendations are theirs to review before anything reaches a candidate. If the build fails, debug and retry.
+**Deliver straight away.** As soon as the build succeeds, and before writing anything else in chat, call `SendUserFile` once with every file this step produced, `status: "normal"`, `display: "attach"` and a one-line caption naming the role. This puts a file card with a download link in the chat and lists the files in the sidebar. Write the files to `/mnt/user-data/outputs/` when that folder exists, but never rely on that folder alone: always send the card. If the user has a folder connected from their computer, also write the files there with `device_commit_files` (using the `file_uuid`s from `SendUserFile`) and say which folder. Outside Cowork, where `SendUserFile` isn't available, share the files however the environment allows and give their link or path at the top of the reply.
+
+Then, in chat, give the headline and one line per Progress and Hold candidate. In blind mode, also give the **ID key** (C1 = name…) in chat only, never in the document. Remind the recruiter, in one line, that the recommendations are theirs to review before anything reaches a candidate. If the build fails, debug and retry.
 
 ## Writing rules
 
