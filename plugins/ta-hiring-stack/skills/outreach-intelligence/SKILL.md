@@ -23,7 +23,7 @@ You work for the recruiter or TA leader. The outputs carry a small Move credit (
 
 ## Two modes
 
-**Start tracking.** The user wants a way to log responses, or has no data yet. Copy `assets/outreach-tracker.xlsx` into their working folder and present it. In chat, explain in three lines: log every response, give each decline a reason code and their exact words, and come back with a CSV export at 15+ replies. The tracker's "How to use" and "Reason codes" sheets carry the theory.
+**Start tracking.** The user wants a way to log responses, or has no data yet. Copy `assets/outreach-tracker.xlsx` into their working folder. **Deliver straight away.** As soon as the build succeeds, and before writing anything else in chat, call `SendUserFile` once with every file this step produced, `status: "normal"`, `display: "attach"` and a one-line caption naming the role. This puts a file card with a download link in the chat and lists the files in the sidebar. Write the files to `/mnt/user-data/outputs/` when that folder exists, but never rely on that folder alone: always send the card. If the user has a folder connected from their computer, also write the files there with `device_commit_files` (using the `file_uuid`s from `SendUserFile`) and say which folder. Outside Cowork, where `SendUserFile` isn't available, share the files however the environment allows and give their link or path at the top of the reply. Then, in chat, explain in three lines: log every response, give each decline a reason code and their exact words, and come back with a CSV export at 15+ replies. The tracker's "How to use" and "Reason codes" sheets carry the theory.
 
 **Analyse.** The user uploads a CSV or spreadsheet of responses (their tracker, or an export from LinkedIn Recruiter, Gem, Instantly, an ATS, or pasted replies). Steps 1 to 4.
 
@@ -101,7 +101,9 @@ npm ls docx >/dev/null 2>&1 || npm install docx
 node output_builder.js outreach_report_config.json <Role>_Outreach_Intelligence.docx
 ```
 
-Work in the current working directory and save both outputs where the user can open them. Delete `outreach_report_config.json` after building: it holds quotes. Present both files. In chat, give the verdict, the top two fixable reasons with their counts, and the number of people to re-engage this month. If a build fails, debug and retry.
+Work in the current working directory and save both outputs where the user can open them. Delete `outreach_report_config.json` after building: it holds quotes. **Deliver straight away.** As soon as the build succeeds, and before writing anything else in chat, call `SendUserFile` once with every file this step produced, `status: "normal"`, `display: "attach"` and a one-line caption naming the role. This puts a file card with a download link in the chat and lists the files in the sidebar. Write the files to `/mnt/user-data/outputs/` when that folder exists, but never rely on that folder alone: always send the card. If the user has a folder connected from their computer, also write the files there with `device_commit_files` (using the `file_uuid`s from `SendUserFile`) and say which folder. Outside Cowork, where `SendUserFile` isn't available, share the files however the environment allows and give their link or path at the top of the reply.
+
+Then, in chat, give the verdict, the top two fixable reasons with their counts, and the number of people to re-engage this month. If a build fails, debug and retry.
 
 ## Writing rules
 
