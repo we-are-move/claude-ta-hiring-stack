@@ -5,13 +5,14 @@
 // Usage:
 //   node output_builder.js <config.json> <output.docx>
 //
-// Config JSON schema: see SKILL.md (Step 4). Do not modify this file.
+// Config JSON schema: see SKILL.md (Step 4).
+// Layout: portrait cover and brief, one landscape archetype grid (archetypes as columns), portrait calls and method.
 
 const fs = require('fs');
 const {
   Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
   ImageRun, Footer, AlignmentType, LevelFormat, ExternalHyperlink,
-  BorderStyle, WidthType, ShadingType, PageBreak, PageNumber, HeadingLevel,
+  BorderStyle, WidthType, ShadingType, PageBreak, PageNumber, HeadingLevel, PageOrientation, LineRuleType,
 } = require('docx');
 
 // =========================================================================
@@ -20,6 +21,7 @@ const {
 const BRAND = { black: '000000', white: 'FFFFFF', cream: 'FFEDD7', lavender: 'D6C6F4', greyText: '555555', lightGrey: 'BBBBBB', paleLav: 'F1ECFB' };
 const WEBSITE = 'https://www.wearemove.com';
 const PAGE_W = 12240, PAGE_H = 15840, MARGIN = 1300, CW = PAGE_W - (MARGIN * 2);
+const L_MARGIN = 800, L_CW = PAGE_H - (L_MARGIN * 2); // landscape grid content width
 const FONT = 'Arial';
 
 // =========================================================================
@@ -111,6 +113,7 @@ const dots = (n) => { const v = Math.max(0, Math.min(5, parseInt(n, 10) || 0)); 
 // SECTIONS
 // =========================================================================
 const LETTERS = 'ABCDEFGH';
+const hasProfiles = () => (C.archetypes || []).some(a => (a.profiles || []).length);
 const blankLine = () => new Paragraph({ spacing: { before: 120, after: 0 }, children: [run('_______________________________________________________________________________', { color: BRAND.lightGrey, size: 20 })] });
 const listCell = (items) => (items || []).filter(Boolean).map(t => ({ text: '• ' + t, size: 19 }));
 
@@ -123,10 +126,16 @@ const cover = () => [
   s(C.hiring_manager) ? new Paragraph({ spacing: { before: 0, after: 900 }, children: [run('For review with ' + C.hiring_manager, { size: 24, color: BRAND.greyText })] }) : new Paragraph({ spacing: { before: 0, after: 900 }, children: [] }),
   panel([
     para('How to use this', { bold: true, size: 20, before: 0 }),
-    para('Read each profile and mark whether you would interview this person, and why. Your reactions matter more than the descriptions: they tell your recruiter exactly who to go after, and who not to.', { size: 20, after: 0 }),
-  ], BRAND.cream),
+    para('The archetypes sit side by side in one grid, each with real example profiles. Tick Yes, Maybe or No under each one and add a word on why. Your reactions matter more than the descriptions: they tell your recruiter exactly who to go after, and who not to.', { size: 20, after: hasProfiles() ? 120 : 0 }),
+    ...(hasProfiles() ? [para('Internal only: this document links to real people\'s public profiles for calibration. Please don\'t forward it outside the hiring team.', { size: 18, bold: true, after: 0 })] : []),
+  ], BRAND.paleLav),
   pageBreak(),
 ];
+
+// A section that ends in a table still needs one paragraph to carry the section break. Left at the
+// default size, Google Docs pushes it onto a blank page of its own when the table nearly fills the
+// page. Keep it 1pt and exact-height so it always fits.
+const sectionEnd = () => new Paragraph({ spacing: { before: 0, after: 0, line: 20, lineRule: LineRuleType.EXACT }, children: [new TextRun({ text: '', size: 2, font: FONT })] });
 
 const briefSection = () => {
   const out = [h1('The brief at a glance'), ...paras(C.summary)];
@@ -144,32 +153,77 @@ const briefSection = () => {
   return out;
 };
 
-const archetypeCard = (a, i) => {
-  const rows = [
-    ['Background', a.background], ['Typical employers', a.employers],
-    ['Brings', listCell(a.brings)], ['Gaps or risks', listCell(a.risks)],
-    ["What they'll want", listCell(a.motivators)], ['Where to find them', a.where], ['Market note', a.market_note],
-  ].filter(r => Array.isArray(r[1]) ? r[1].length : s(r[1]));
+const gp = (children, o = {}) => new Paragraph({ spacing: { before: o.before ?? 10, after: o.after ?? 10, line: 250 }, children });
+const gRun = (text, o = {}) => run(text, { size: o.size || 17, bold: o.bold, italic: o.italic, color: o.color });
+const gCell = (children, width, o = {}) => new TableCell({
+  width: { size: width, type: WidthType.DXA },
+  shading: o.fill ? { fill: o.fill, type: ShadingType.CLEAR, color: 'auto' } : undefined,
+  margins: { top: 70, bottom: 70, left: 90, right: 90 }, borders: lines,
+  children: children.length ? children : [gp([])],
+});
+const gText = (v) => [gp([gRun(v)])];
+const gList = (items) => (items || []).filter(Boolean).map(x => gp([gRun('• ' + x)]));
+const gProfiles = (list) => {
+  const out = [];
+  (list || []).filter(x => x && (x.name || x.url)).forEach((x, k) => {
+    const nameRun = x.url
+      ? new ExternalHyperlink({ link: x.url, children: [new TextRun({ text: s(x.name || 'LinkedIn profile'), size: 17, bold: true, font: FONT, color: '1F4E9E', underline: { type: 'single' } })] })
+      : gRun(x.name, { bold: true });
+    out.push(gp([nameRun], { before: k ? 90 : 10 }));
+    const role = [x.title, x.company].filter(Boolean).join(', ');
+    if (s(role)) out.push(gp([gRun(role, { color: BRAND.greyText, size: 16 })]));
+    if (s(x.fit)) out.push(gp([gRun(x.fit, { italic: true, size: 16 })]));
+  });
+  return out.length ? out : [gp([gRun('No example found yet', { italic: true, color: BRAND.greyText, size: 16 })])];
+};
+const gCall = () => [
+  gp([gRun('☐ Yes   ☐ Maybe   ☐ No', { size: 18 })], { after: 60 }),
+  gp([gRun('Why?', { color: BRAND.greyText, size: 16 })]),
+  gp([gRun(' ')]),
+];
+
+const archetypeGrid = () => {
+  const arch = C.archetypes || [];
+  if (!arch.length) return [];
+  const labelW = 1700;
+  const colW = Math.floor((L_CW - labelW) / arch.length);
+  const widths = [labelW, ...arch.map((_, i) => i === arch.length - 1 ? L_CW - labelW - colW * (arch.length - 1) : colW)];
+  const rowDefs = [
+    ['Who they are', a => gText(a.summary)],
+    ['Background', a => [...gText(a.background), ...(s(a.employers) ? [gp([gRun('Typical employers: ', { bold: true, size: 16 }), gRun(a.employers, { size: 16, color: BRAND.greyText })], { before: 50 })] : [])]],
+    ['Brings', a => gList(a.brings)],
+    ['Gaps or risks', a => gList(a.risks)],
+    ...(hasProfiles() ? [['Real examples', a => gProfiles(a.profiles)]] : []),
+    ["What they'll want", a => gList(a.motivators)],
+    ['Market note', a => gText(a.market_note)],
+    ['Your call', () => gCall()],
+  ];
+  const header = new TableRow({ tableHeader: true, cantSplit: true, children: [
+    gCell([gp([gRun('', { bold: true })])], widths[0], { fill: BRAND.black }),
+    ...arch.map((a, i) => gCell([
+      gp([run(LETTERS[i], { bold: true, size: 26, color: BRAND.black })]),
+      gp([run(a.name || '', { bold: true, size: 19, color: BRAND.black })]),
+    ], widths[i + 1], { fill: BRAND.lavender })),
+  ] });
+  const rows = rowDefs.map(([label, fn]) => new TableRow({ cantSplit: true, children: [
+    gCell([gp([gRun(label, { bold: true, size: 17 })])], widths[0], { fill: BRAND.paleLav }),
+    ...arch.map((a, i) => gCell(fn(a), widths[i + 1], { fill: label === 'Your call' ? BRAND.paleLav : undefined })),
+  ] }));
   return [
-    pageBreak(),
-    new Paragraph({ spacing: { before: 0, after: 60 }, children: [run('ARCHETYPE ' + LETTERS[i], { bold: true, size: 20, color: BRAND.greyText })] }),
-    h1(a.name || ''),
-    para(a.summary || '', { size: 23, italic: true, after: 200 }),
-    table(null, fit([24, 76]), rows.map(r => ({ cells: [{ text: r[0], bold: true, size: 19 }, Array.isArray(r[1]) ? r[1] : { text: r[1], size: 19 }] }))),
-    new Paragraph({ spacing: { before: 200, after: 0 }, children: [] }),
-    panel([
-      para('Your call', { bold: true, size: 21, before: 0 }),
-      para('Would you interview this person?      ☐ Yes      ☐ Maybe      ☐ No', { size: 21 }),
-      para('Why?', { size: 20, color: BRAND.greyText, after: 0 }),
-      blankLine(), blankLine(),
-    ], BRAND.paleLav),
+    new Paragraph({ spacing: { before: 0, after: 40 }, children: [run('THE ARCHETYPES', { bold: true, size: 18, color: BRAND.greyText })] }),
+    new Paragraph({ spacing: { before: 0, after: 80 }, children: [run('Who could do this job', { bold: true, size: 30 })] }),
+    para(hasProfiles()
+      ? 'Read across a row to compare. Each archetype is a pattern seen in this market; the real examples show what that pattern looks like on LinkedIn. React to the type, not to the individual.'
+      : 'Read across a row to compare. Each archetype is a pattern seen in this market.', { size: 18, color: BRAND.greyText, after: 140 }),
+    new Table({ width: { size: L_CW, type: WidthType.DXA }, columnWidths: widths, rows: [header, ...rows] }),
+    sectionEnd(),
   ];
 };
 
 const callsSection = () => {
   const q = C.questions || [];
   const arch = C.archetypes || [];
-  const out = [pageBreak(), h1('Your calls')];
+  const out = [h1('Your calls')];
   if (q.length) {
     out.push(intro('Each question forces a choice the search depends on. A short answer is enough.'));
     q.forEach(x => {
@@ -186,7 +240,9 @@ const callsSection = () => {
 
 const methodSection = () => {
   const out = [pageBreak(), h1('How these archetypes were built'), ...paras(C.method, { size: 19 })];
-  out.push(para('Archetypes are composites built from public patterns (employers, job titles and career paths), not real people.', { size: 18, italic: true, color: BRAND.greyText }));
+  out.push(para(hasProfiles()
+    ? 'Archetypes are composites built from public patterns (employers, job titles and career paths). The real examples are people found in public professional data whose current role fits the pattern. They illustrate each type; they have not been assessed or approached.'
+    : 'Archetypes are composites built from public patterns (employers, job titles and career paths), not real people.', { size: 18, italic: true, color: BRAND.greyText }));
   const src = C.sources || [];
   if (src.length) {
     out.push(h2('Sources'));
@@ -214,27 +270,26 @@ const closing = () => [
 // =========================================================================
 const footer = new Footer({ children: [new Paragraph({
   children: [
-    run(`Calibration archetypes${C.role ? ' · ' + C.role : ''}   ·   Built with Move   ·   `, { size: 15, color: BRAND.greyText }),
+    run(`${hasProfiles() ? 'Internal only   ·   ' : ''}Calibration archetypes${C.role ? ' · ' + C.role : ''}   ·   Built with Move   ·   `, { size: 15, color: BRAND.greyText }),
     new ExternalHyperlink({ link: WEBSITE, children: [new TextRun({ text: 'wearemove.com', size: 15, font: FONT, color: BRAND.greyText })] }),
     run('   ·   Page ', { size: 15, color: BRAND.greyText }),
     new TextRun({ children: [PageNumber.CURRENT], size: 15, font: FONT, color: BRAND.greyText }),
   ],
 })] });
 
+const PORTRAIT = { page: { size: { width: PAGE_W, height: PAGE_H }, margin: { top: MARGIN, bottom: MARGIN, left: MARGIN, right: MARGIN } } };
+const LANDSCAPE = { page: { size: { width: PAGE_W, height: PAGE_H, orientation: PageOrientation.LANDSCAPE }, margin: { top: L_MARGIN, bottom: L_MARGIN, left: L_MARGIN, right: L_MARGIN } } };
+
 const doc = new Document({
   creator: 'Calibration Archetypes',
   title: `Calibration archetypes${C.role ? ': ' + C.role : ''}`,
   styles: { default: { document: { run: { font: FONT, size: 21 } } } },
   numbering: NUMBERING,
-  sections: [{
-    properties: { page: { size: { width: PAGE_W, height: PAGE_H }, margin: { top: MARGIN, bottom: MARGIN, left: MARGIN, right: MARGIN } } },
-    footers: { default: footer },
-    children: [
-      ...cover(), ...briefSection(),
-      ...(C.archetypes || []).flatMap((a, i) => archetypeCard(a, i)),
-      ...callsSection(), ...methodSection(), ...closing(),
-    ],
-  }],
+  sections: [
+    { properties: PORTRAIT, footers: { default: footer }, children: [...cover(), ...briefSection(), sectionEnd()] },
+    ...((C.archetypes || []).length ? [{ properties: LANDSCAPE, footers: { default: footer }, children: archetypeGrid() }] : []),
+    { properties: PORTRAIT, footers: { default: footer }, children: [...callsSection(), ...methodSection(), ...closing()] },
+  ],
 });
 
 Packer.toBuffer(doc).then(buf => {

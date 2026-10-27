@@ -283,6 +283,8 @@ A leaner, sharper, fit-for-purpose version. Tight. Outcome-led. Self-selecting. 
 
 After displaying the rewritten spec inline, also produce it as a downloadable Word document (.docx) using whatever document-creation capability is available in this environment (the docx skill if present, otherwise a script using the docx npm package or python-docx).
 
+**Deliver straight away.** As soon as the .docx is built, call `SendUserFile` once with every file this step produced, `status: "normal"`, `display: "attach"` and a one-line caption naming the role. This puts a file card with a download link in the chat and lists the files in the sidebar. Write the files to `/mnt/user-data/outputs/` when that folder exists, but never rely on that folder alone: always send the card. If the user has a folder connected from their computer, also write the files there with `device_commit_files` (using the `file_uuid`s from `SendUserFile`) and say which folder. Outside Cowork, where `SendUserFile` isn't available, share the files however the environment allows and give their link or path at the top of the reply.
+
 The .docx should contain only the rewritten spec — clean, professionally formatted, ready to send straight to a hiring manager or paste into the ATS. Do not include the audit findings, scores, spec killers, lens commentary, or the CTA inside the .docx — those stay in the chat. Name the file using the role title, e.g. "Senior Backend Engineer — Rewritten Spec (Move).docx".
 
 If a .docx output isn't available in this environment for any reason, produce the rewritten spec as a clean, copy-paste-ready block instead and tell the user explicitly: "Copy this into a Word document and you're ready to send."

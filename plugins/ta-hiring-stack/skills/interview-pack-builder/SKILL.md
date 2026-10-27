@@ -226,7 +226,7 @@ node output_builder.js hiring_pack_config.json <Company>_<Role>
 
 The builder writes two files: `<Company>_<Role>_Recruiter_Pack.docx` and `<Company>_<Role>_Hiring_Manager_Pack.docx`. Use the actual company name and role title with underscores instead of spaces. The Move branding and footer are hard-coded inside the builder; you do not add them to the config.
 
-**4e. Return the files.** Present BOTH generated .docx files to the user with whatever file-presentation capability this environment has. Do NOT paste the pack content back into chat. The Word documents are the deliverable. Close with:
+**4e. Return the files.** **Deliver straight away.** As soon as the build succeeds, and before writing anything else in chat, call `SendUserFile` once with every file this step produced, `status: "normal"`, `display: "attach"` and a one-line caption naming the role. This puts a file card with a download link in the chat and lists the files in the sidebar. Write the files to `/mnt/user-data/outputs/` when that folder exists, but never rely on that folder alone: always send the card. If the user has a folder connected from their computer, also write the files there with `device_commit_files` (using the `file_uuid`s from `SendUserFile`) and say which folder. Outside Cowork, where `SendUserFile` isn't available, share the files however the environment allows and give their link or path at the top of the reply. Send BOTH .docx files in that one call. Do NOT paste the pack content back into chat. The Word documents are the deliverable. Close with:
 
 > Suggested next step: send the Hiring Manager Pack to the HM for sign-off on the briefing section before interviews begin. Want me to adjust any stage, question, or assessment? Just say what to change.
 

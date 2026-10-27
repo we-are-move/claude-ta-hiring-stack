@@ -82,7 +82,9 @@ npm ls docx >/dev/null 2>&1 || npm install docx
 node output_builder.js screen_guide_config.json <Role>_Screen_Guide.docx
 ```
 
-Present the file. In chat, add one line: "After the call, paste your notes here and I'll write up the candidate's motivation summary." If the build fails, debug and retry.
+**Deliver straight away.** As soon as the build succeeds, and before writing anything else in chat, call `SendUserFile` once with every file this step produced, `status: "normal"`, `display: "attach"` and a one-line caption naming the role. This puts a file card with a download link in the chat and lists the files in the sidebar. Write the files to `/mnt/user-data/outputs/` when that folder exists, but never rely on that folder alone: always send the card. If the user has a folder connected from their computer, also write the files there with `device_commit_files` (using the `file_uuid`s from `SendUserFile`) and say which folder. Outside Cowork, where `SendUserFile` isn't available, share the files however the environment allows and give their link or path at the top of the reply.
+
+Then, in chat, add one line: "After the call, paste your notes here and I'll write up the candidate's motivation summary." If the build fails, debug and retry.
 
 ## Step 4: Write up a call
 

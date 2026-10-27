@@ -105,7 +105,9 @@ npm ls docx >/dev/null 2>&1 || npm install docx
 node output_builder.js pipeline_report_config.json <Scope>_Pipeline_Report.docx
 ```
 
-Delete the config afterwards. Present both files. In chat, give the verdict, the bottleneck, and the top three people on the action list (names are fine in chat; the user owns this data). If a build fails, debug and retry.
+Delete the config afterwards. **Deliver straight away.** As soon as the build succeeds, and before writing anything else in chat, call `SendUserFile` once with every file this step produced, `status: "normal"`, `display: "attach"` and a one-line caption naming the role. This puts a file card with a download link in the chat and lists the files in the sidebar. Write the files to `/mnt/user-data/outputs/` when that folder exists, but never rely on that folder alone: always send the card. If the user has a folder connected from their computer, also write the files there with `device_commit_files` (using the `file_uuid`s from `SendUserFile`) and say which folder. Outside Cowork, where `SendUserFile` isn't available, share the files however the environment allows and give their link or path at the top of the reply.
+
+Then, in chat, give the verdict, the bottleneck, and the top three people on the action list (names are fine in chat; the user owns this data). If a build fails, debug and retry.
 
 ## Writing rules
 

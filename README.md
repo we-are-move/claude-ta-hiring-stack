@@ -30,7 +30,7 @@ There's nothing to configure. Describe the task in plain English and the right s
 | | Spec-based levelling | Reads the real level of a role from its spec | "What level is this role really?" |
 | | Intake prep | Tailored intake questions and hypotheses to test | "Prep me for my intake on this role" |
 | **02 Calibrate** | Intake codification | Turns the intake call into a brief for sign-off | "Turn this intake into a brief for sign-off" |
-| | Calibration archetypes | 3 to 4 realistic profiles to align on early | "Build calibration archetypes for my intake" |
+| | Calibration archetypes | 3 to 4 realistic profiles side by side in one grid, each with real example LinkedIn profiles (via Clay) | "Build calibration archetypes for my intake" |
 | | Role personas | Target personas and what motivates each | "Build candidate personas for this role" |
 | | Shortlist builder | An evidence-based shortlist from a batch of CVs | "Shortlist these CVs" |
 | **03 Attract & engage** | Persona interviews | Captures your team's real stories | "Turn these incumbent interviews into an EVP" |
