@@ -1,0 +1,540 @@
+<title>__TITLE__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: one column of bands. Brief and method up top, six profile score cards in a two-column grid, team alignment revealed below once you submit. */
+:root{
+  --bg:#ffffff; --surface:#f7f5fb; --ink:#141217; --muted:#5d5866; --line:#e4dfec;
+  --lav:#d6c6f4; --lav-soft:#efe8fb; --lav-ink:#5b3fae; --on-lav:#141217;
+  --good:#1f7a4d; --good-bg:#e3f4ea; --warn:#9a5b00; --warn-bg:#fdf0d9; --bad:#b4232a; --bad-bg:#fbe5e6;
+  --f-display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Figtree", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --logo-filter:none;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#131116; --surface:#1c1a21; --ink:#f1eef6; --muted:#a8a1b3; --line:#2f2b37;
+  --lav:#3d3159; --lav-soft:#241f30; --lav-ink:#c7b3f3; --on-lav:#f1eef6;
+  --good:#7fd3a4; --good-bg:#16301f; --warn:#f0bf6a; --warn-bg:#33270f; --bad:#f19a9e; --bad-bg:#3a1a1c;
+  --logo-filter:invert(1); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131116; --surface:#1c1a21; --ink:#f1eef6; --muted:#a8a1b3; --line:#2f2b37;
+  --lav:#3d3159; --lav-soft:#241f30; --lav-ink:#c7b3f3; --on-lav:#f1eef6;
+  --good:#7fd3a4; --good-bg:#16301f; --warn:#f0bf6a; --warn-bg:#33270f; --bad:#f19a9e; --bad-bg:#3a1a1c;
+  --logo-filter:invert(1); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1080px;margin:0 auto;padding-block:28px 64px;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,4.4vw,42px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:22px;font-weight:700}
+h3{font-size:17px;font-weight:700}
+p{margin:0}
+a{color:var(--lav-ink)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--lav-ink);outline-offset:2px}
+
+/* header */
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.top img{width:84px;height:auto;filter:var(--logo-filter)}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--lav);color:var(--on-lav)}
+.titleblock{display:flex;flex-direction:column;gap:10px;max-width:760px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;color:var(--muted)}
+
+/* how it works */
+.how{display:grid;grid-template-columns:1.3fr 1fr;gap:28px;background:var(--lav-soft);border-radius:14px;padding:24px}
+.how > *{min-width:0}
+.how-col{display:flex;flex-direction:column;gap:12px}
+.how-h{font-size:17px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.how-time{font-family:var(--f-body);font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.why{border-left:1px solid var(--lav);padding-left:24px;font-size:14px}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.steps li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:center}
+.steps .n{width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;font-weight:700}
+.who{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chip{font-size:13px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--bg);white-space:nowrap}
+
+/* brief */
+.brief{display:grid;grid-template-columns:1.3fr 1fr;gap:28px}
+.brief > *{min-width:0}
+.brief ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px;margin-top:8px}
+.kv dt{color:var(--muted)} .kv dd{margin:0}
+
+/* archetypes */
+.arch{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.arch article{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.letter{font-family:var(--f-mono);font-weight:700;font-size:13px;width:26px;height:26px;border-radius:6px;background:var(--lav);color:var(--on-lav);display:grid;place-items:center}
+.arch .emp{font-size:13px;color:var(--muted)}
+
+/* scorer bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);
+  padding-block:12px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.bar label{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+select{font:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.prog{display:flex;align-items:center;gap:10px;font-size:14px}
+.prog .track{width:140px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.prog .fill{height:100%;background:var(--lav-ink);width:0;transition:width .25s}
+.btn{border:0;border-radius:9px;padding:9px 16px;font-weight:600;background:var(--ink);color:var(--bg)}
+.btn[disabled]{opacity:.35;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.status{font-size:13px;color:var(--muted)}
+
+/* profile cards */
+.scale{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted);margin-top:6px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px}
+.card{border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0;background:var(--bg)}
+.card.done{border-color:var(--lav-ink)}
+.chead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.chead > div{min-width:0}
+.pname{font-family:var(--f-display);font-size:19px;font-weight:700;text-decoration:none;color:var(--ink);border-bottom:2px solid var(--lav)}
+.pname:hover{border-bottom-color:var(--lav-ink)}
+.prole{font-size:14px;margin-top:4px}
+.ctx{background:var(--surface);border-radius:10px;padding:12px 14px;font-size:14px;display:flex;flex-direction:column;gap:6px}
+.ctx-l{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ctx .muted{font-size:13px}
+.avg{font-family:var(--f-mono);font-weight:700;font-size:20px;min-width:56px;text-align:center;padding:6px 8px;border-radius:10px;background:var(--surface);font-variant-numeric:tabular-nums}
+.avg small{display:block;font-size:10px;font-weight:500;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.crit{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:center}
+.crit .lbl{font-weight:600;font-size:14px}
+.crit .hint{display:block;font-weight:400;font-size:12px;color:var(--muted)}
+.pips{display:flex;gap:4px}
+.pip{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-family:var(--f-mono);font-weight:700;font-size:14px}
+.pip:hover:not([disabled]){border-color:var(--lav-ink)}
+.pip[aria-pressed="true"]{background:var(--lav-ink);border-color:var(--lav-ink);color:var(--bg)}
+.pip[disabled]{cursor:default}
+textarea{font:inherit;font-size:14px;width:100%;min-height:56px;resize:vertical;padding:8px 10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.reveal{border-top:1px dashed var(--line);padding-top:12px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.tier{display:inline-flex;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.t1{background:var(--good-bg);color:var(--good)} .t2{background:var(--warn-bg);color:var(--warn)} .t3{background:var(--lav);color:var(--on-lav)}
+.locked{font-size:13px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+
+/* questions */
+.qs{display:flex;flex-direction:column;gap:14px;margin-top:14px}
+.q{display:grid;grid-template-columns:28px 1fr;gap:10px}
+.q > div{min-width:0;display:flex;flex-direction:column;gap:8px}
+.qn{font-family:var(--f-mono);font-weight:700;color:var(--lav-ink)}
+
+/* alignment */
+.panel{background:var(--surface);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:18px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+td.num,th.num{text-align:center;font-family:var(--f-mono)}
+.cell{display:inline-block;min-width:38px;padding:2px 6px;border-radius:6px}
+.flag{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.f-ok{background:var(--good-bg);color:var(--good)} .f-talk{background:var(--warn-bg);color:var(--warn)} .f-miss{background:var(--bad-bg);color:var(--bad)}
+#align-body{display:flex;flex-direction:column;gap:14px}
+#align-body h3{margin-top:8px}
+.notes{display:flex;flex-direction:column;gap:10px}
+.notes h3{font-size:15px}
+.notes ul{margin:4px 0 0;padding-left:18px;font-size:14px}
+.empty{font-size:14px;color:var(--muted);padding:14px;border:1px dashed var(--line);border-radius:10px;background:var(--bg)}
+details{border-top:1px solid var(--line);padding-top:14px;font-size:14px}
+summary{cursor:pointer;font-weight:600}
+details p{margin-top:10px;max-width:72ch}
+details ul{padding-left:18px}
+.foot{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.notice{font-size:14px;padding:12px 14px;border-radius:10px;background:var(--warn-bg);color:var(--ink)}
+.copybox{width:100%;min-height:140px;font-family:var(--f-mono);font-size:12px}
+
+@media (max-width:860px){.arch{grid-template-columns:repeat(2,1fr)} .how,.brief{grid-template-columns:1fr} .why{border-left:0;padding-left:0;border-top:1px solid var(--lav);padding-top:16px}}
+@media (max-width:700px){.cards{grid-template-columns:1fr}}
+@media (max-width:440px){.arch{grid-template-columns:1fr} .pip{width:30px;height:32px} .prog .track{width:90px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="titleblock">
+      <span class="eyebrow" id="h-eyebrow"></span>
+      <h1 id="h-title"></h1>
+      <div class="meta" id="h-meta"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px">
+      <img alt="Move" src="data:image/png;base64,__LOGO__">
+      <span class="badge" id="h-internal">Internal only</span>
+    </div>
+  </header>
+
+  <section class="how" aria-label="Instructions">
+    <div class="how-col">
+      <h2 class="how-h">How to score <span class="how-time">About 15 minutes</span></h2>
+      <ol class="steps">
+        <li><span class="n">1</span><div><strong>Open each profile on LinkedIn.</strong></div></li>
+        <li><span class="n">2</span><div><strong>Score it 1 to 5 on four criteria.</strong> <span class="muted">5 is highly aligned.</span></div></li>
+        <li><span class="n">3</span><div><strong>Answer the four trade-off questions.</strong></div></li>
+        <li><span class="n">4</span><div><strong>Submit to see the team's scores.</strong></div></li>
+      </ol>
+    </div>
+    <div class="how-col why">
+      <h2 class="how-h">Why score on your own</h2>
+      <p>You only see other people's scores after you submit, so nobody anchors on the first opinion.</p>
+      <p class="muted">Scorers: hiring manager, second interviewer, someone in the job today, the leader who signs off.</p>
+    </div>
+  </section>
+
+  <section class="brief" aria-labelledby="brief-h">
+    <div>
+      <h2 id="brief-h">The brief</h2>
+      <p style="margin-top:8px" id="b-summary"></p>
+      <ul id="b-must"></ul>
+    </div>
+    <div>
+      <span class="eyebrow">At a glance</span>
+      <dl class="kv" id="b-kv"></dl>
+    </div>
+  </section>
+
+  <section aria-labelledby="arch-h">
+    <h2 id="arch-h">The candidate types we found</h2>
+    <p class="muted" style="margin-top:6px">Where people who do this job in this market usually come from. Each profile below is a real example of one of these types.</p>
+    <div class="arch" id="arch"></div>
+  </section>
+
+  <section aria-labelledby="score-h">
+    <div class="bar" id="bar">
+      <label for="role">Scoring as
+        <select id="role">
+          <option value="">Choose your role</option>
+          <option>Hiring manager</option>
+          <option>Second hiring manager</option>
+          <option>Interviewer</option>
+          <option>Doing the job today</option>
+          <option>Leadership</option>
+          <option>Recruiter</option>
+          <option>Other</option>
+        </select>
+      </label>
+      <div class="prog"><div class="track"><div class="fill" id="pfill"></div></div><span id="ptext">0 of 0 scored</span></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <span class="status" id="save-status"></span>
+        <button class="btn" id="submit" disabled>Submit my scores</button>
+      </div>
+    </div>
+    <div style="margin-top:20px">
+      <h2 id="score-h">Score the profiles</h2>
+      <div class="scale"><span><strong>5</strong> highly aligned</span><span><strong>3</strong> partly aligned</span><span><strong>1</strong> not aligned</span><span id="profile-note"></span></div>
+    </div>
+    <div id="mode-notice"></div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section aria-labelledby="q-h">
+    <h2 id="q-h">Four calls to make</h2>
+    <p class="muted" style="margin-top:6px">Each one is a trade-off the brief doesn't settle yet.</p>
+    <div class="qs" id="qs"></div>
+  </section>
+
+  <section aria-labelledby="al-h" class="panel" id="align">
+    <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+      <h2 id="al-h">Team alignment</h2>
+      <button class="btn ghost" id="copy-results" hidden>Copy results for the calibration record</button>
+    </div>
+    <div id="align-body"><p class="empty">The team's scores appear here once you submit your own.</p></div>
+    <textarea class="copybox" id="copy-fallback" hidden readonly aria-label="Results to copy"></textarea>
+  </section>
+
+  <details>
+    <summary>How these profiles were chosen</summary>
+    <div id="method"></div>
+    <ul id="sources"></ul>
+  </details>
+
+  <footer class="foot"><span id="f-left"></span><span>Built by Move · <a href="https://www.wearemove.com" target="_blank" rel="noopener">wearemove.com</a></span></footer>
+</div>
+
+<script id="cal-data" type="application/json">__DATA__</script>
+<script>
+(function(){
+const D = JSON.parse(document.getElementById('cal-data').textContent);
+const CRIT = D.criteria && D.criteria.length ? D.criteria : [
+  {key:'projects',label:'Projects',hint:'Relevance of past work'},
+  {key:'skills',label:'Skills',hint:'Must-have skills visible'},
+  {key:'level',label:'Level',hint:'Seniority match'},
+  {key:'employers',label:'Employers',hint:'Relevance of past and current companies'}];
+const TIER = {1:['t1','Tier 1 · Close match'],2:['t2','Tier 2 · Borderline'],3:['t3','Tier 3 · Edge case']};
+const $ = id => document.getElementById(id);
+const el = (tag, attrs, ...kids) => { const e = document.createElement(tag);
+  for (const k in (attrs||{})) { if (k==='class') e.className = attrs[k]; else if (k==='text') e.textContent = attrs[k]; else e.setAttribute(k, attrs[k]); }
+  kids.flat().forEach(c => c!=null && e.append(c)); return e; };
+const archBy = Object.fromEntries((D.archetypes||[]).map(a => [a.letter, a]));
+const LKEY = 'cal-draft-' + (D.slug || D.role);
+
+// ---------- state ----------
+let state = {role:'', scores:{}, comments:{}, answers:{}};
+let submitted = false, editing = false;
+let mode = 'local';           // 'shared' when db + id are available and writes work
+let db = null, user = null, uid = null, isOwner = false;
+let team = [];                // submitted docs [{id, data}]
+
+// ---------- static content ----------
+$('h-eyebrow').textContent = 'Calibration' + (D.company ? ' · ' + D.company : '');
+$('h-title').textContent = D.role;
+[D.location, D.date, D.recruiter ? 'Prepared by ' + D.recruiter : null].filter(Boolean).forEach(t => $('h-meta').append(el('span',{text:t})));
+$('b-summary').textContent = D.brief.summary || '';
+(D.brief.must_haves||[]).forEach(m => $('b-must').append(el('li',{text:m})));
+[['Level',D.brief.level],['Pay',D.brief.pay_band],['Location',D.location]].filter(r=>r[1]).forEach(([k,v]) => { $('b-kv').append(el('dt',{text:k}), el('dd',{text:v})); });
+(D.archetypes||[]).forEach(a => $('arch').append(el('article',{},
+  el('div',{style:'display:flex;gap:8px;align-items:center'}, el('span',{class:'letter',text:a.letter}), el('h3',{text:a.name})),
+  el('p',{text:a.summary}), el('p',{class:'emp',text:a.employers}))));
+$('profile-note').textContent = 'Profiles were matched on title, employer and location only. Nobody has been contacted.';
+$('f-left').textContent = 'Internal only. Real people’s public profiles: keep this within the hiring team.';
+$('method').append(...String(D.method||'').split(/\n\n+/).filter(Boolean).map(t => el('p',{text:t})));
+(D.sources||[]).forEach(s => $('sources').append(el('li',{}, s.url ? el('a',{href:s.url,target:'_blank',rel:'noopener',text:s.title}) : s.title)));
+
+// ---------- cards ----------
+const cardEls = {};
+function buildCards(){
+  D.profiles.forEach(p => {
+    const avg = el('div',{class:'avg'}, el('span',{text:'–'}), el('small',{text:'avg'}));
+    const crits = el('div',{class:'crit'});
+    const pipRefs = {};
+    CRIT.forEach(c => {
+      const pips = el('div',{class:'pips',role:'group','aria-label':c.label+' score for '+p.name});
+      pipRefs[c.key] = [];
+      for (let v=1; v<=5; v++){
+        const b = el('button',{class:'pip',type:'button','aria-pressed':'false','aria-label':c.label+' '+v,id:'pip-'+p.id+'-'+c.key+'-'+v,text:String(v)});
+        b.addEventListener('click', () => setScore(p.id, c.key, v));
+        pips.append(b); pipRefs[c.key].push(b);
+      }
+      crits.append(el('div',{class:'lbl'}, c.label, el('span',{class:'hint',text:c.hint})), pips);
+    });
+    const ta = el('textarea',{id:'note-'+p.id,placeholder:'Anything that stood out (optional)','aria-label':'Comment on '+p.name});
+    ta.addEventListener('input', () => { state.comments[p.id] = ta.value; queueSave(); });
+    const reveal = el('div',{class:'reveal',hidden:''});
+    const locked = el('p',{class:'locked',text:'The recruiter’s tier and reasoning appear after you submit.'});
+    const head = el('div',{class:'chead'},
+      el('div',{}, el('a',{class:'pname',href:p.url,target:'_blank',rel:'noopener',text:p.name}),
+        el('p',{class:'prole',text:p.title + ' · ' + p.company}),
+        p.since ? el('p',{class:'muted',style:'font-size:13px',text:p.since}) : null),
+      avg);
+    const ctx = p.context ? el('div',{class:'ctx'},
+      el('span',{class:'ctx-l',text: p.context_source === 'profile' ? 'From their wider profile (no description on this role)' : 'What they do in this role'}),
+      el('p',{text:p.context}),
+      p.before ? el('p',{class:'muted',text:'Before: ' + p.before}) : null) : null;
+    const card = el('article',{class:'card',id:'card-'+p.id}, head, ctx, crits, ta, locked, reveal);
+    $('cards').append(card);
+    cardEls[p.id] = {card, avg:avg.firstChild, pipRefs, ta, reveal, locked};
+  });
+}
+function fillReveal(p, r){
+  r.textContent='';
+  const [cls,label] = TIER[p.tier] || ['t2','Tier ' + p.tier];
+  const a = archBy[p.archetype];
+  r.append(el('div',{style:'display:flex;gap:8px;flex-wrap:wrap;align-items:center'}, el('span',{class:'tier '+cls,text:label}),
+    a ? el('span',{class:'chip',text:'Type '+a.letter+': '+a.name}) : null),
+    p.note ? el('p',{text:p.note}) : null);
+}
+
+// ---------- questions ----------
+function buildQuestions(){
+  (D.questions||[]).forEach((q,i) => {
+    const ta = el('textarea',{id:'ans-'+i,'aria-label':'Your answer to question '+(i+1),placeholder:'Your answer'});
+    ta.addEventListener('input', () => { state.answers['q'+i] = ta.value; queueSave(); });
+    $('qs').append(el('div',{class:'q'}, el('span',{class:'qn',text:String(i+1).padStart(2,'0')}), el('div',{}, el('p',{text:q}), ta)));
+  });
+}
+
+// ---------- scoring ----------
+const profAvg = sc => { const v = CRIT.map(c => sc && sc[c.key]).filter(x => typeof x==='number'); return v.length===CRIT.length ? v.reduce((a,b)=>a+b,0)/v.length : null; };
+const fmt = n => n==null ? '–' : (Math.round(n*10)/10).toFixed(1);
+function scoredCount(){ return D.profiles.filter(p => profAvg(state.scores[p.id])!=null).length; }
+function setScore(pid, key, v){
+  if (submitted && !editing) return;
+  state.scores[pid] = Object.assign({}, state.scores[pid], {[key]: v});
+  renderScores(); queueSave();
+}
+function renderScores(){
+  const lock = submitted && !editing;
+  D.profiles.forEach(p => {
+    const c = cardEls[p.id], sc = state.scores[p.id] || {};
+    CRIT.forEach(cr => c.pipRefs[cr.key].forEach((b,i) => { b.setAttribute('aria-pressed', String(sc[cr.key]===i+1)); b.disabled = lock; }));
+    c.ta.disabled = lock;
+    if (document.activeElement !== c.ta) c.ta.value = state.comments[p.id] || '';
+    const a = profAvg(sc); c.avg.textContent = fmt(a); c.card.classList.toggle('done', a!=null);
+    const show = submitted || isOwner; c.reveal.hidden = !show; c.locked.hidden = show;
+    if (show) fillReveal(p, c.reveal);
+  });
+  (D.questions||[]).forEach((q,i) => { const ta = $('ans-'+i); ta.disabled = lock; if (document.activeElement!==ta) ta.value = state.answers['q'+i] || ''; });
+  $('role').value = state.role || ''; $('role').disabled = lock;
+  const n = scoredCount(), total = D.profiles.length;
+  $('pfill').style.width = (100*n/total) + '%';
+  $('ptext').textContent = n + ' of ' + total + ' scored';
+  const sb = $('submit');
+  if (lock){ sb.textContent = 'Change my scores'; sb.disabled = false; }
+  else { sb.textContent = submitted ? 'Resubmit my scores' : 'Submit my scores'; sb.disabled = !(n===total && state.role); sb.title = sb.disabled ? 'Score every profile and choose your role first' : ''; }
+}
+$('role').addEventListener('change', e => { state.role = e.target.value; renderScores(); queueSave(); });
+
+// ---------- saving ----------
+let saveTimer = null, saving = Promise.resolve(), dirty = false;
+function setStatus(t){ $('save-status').textContent = t; }
+function queueSave(){ dirty = true; clearTimeout(saveTimer); setStatus(mode==='shared' ? 'Saving…' : 'Saved in this browser'); saveTimer = setTimeout(flush, 700); }
+function flush(){
+  if (!dirty) return saving; dirty = false;
+  const body = JSON.parse(JSON.stringify(state)); body.updatedAt = new Date().toISOString();
+  try { localStorage.setItem(LKEY, JSON.stringify({state:body, submitted})); } catch(e){}
+  if (mode !== 'shared') return saving;
+  saving = saving.then(() => db.doc('data/users/'+uid+'/draft').set(body))
+    .then(() => setStatus('Saved'))
+    .catch(e => { if (e && e.code==='invalid_argument') toLocal('view'); else setStatus('Not saved yet, retrying'); dirty = true; setTimeout(flush, 2500); });
+  return saving;
+}
+$('submit').addEventListener('click', async () => {
+  if (submitted && !editing){ editing = true; renderScores(); return; }
+  clearTimeout(saveTimer); dirty = true; await flush();
+  const body = JSON.parse(JSON.stringify(state)); body.submittedAt = new Date().toISOString();
+  if (mode === 'shared'){
+    try { await (saving = saving.then(() => db.doc('scores/'+uid).set(body))); }
+    catch(e){ if (e && e.code==='invalid_argument'){ toLocal('view'); } else { setStatus('Couldn’t submit. Try again in a moment.'); return; } }
+  }
+  submitted = true; editing = false;
+  try { localStorage.setItem(LKEY, JSON.stringify({state, submitted:true})); } catch(e){}
+  setStatus(mode==='shared' ? 'Submitted' : 'Submitted in this browser');
+  renderScores(); renderAlign();
+  $('align').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto':'smooth'});
+});
+
+function toLocal(reason){
+  mode = 'local';
+  const who = D.recruiter || 'your recruiter';
+  const msg = reason==='view'
+    ? 'You can view this page but not save to it, so your scores are kept in this browser. After you submit, use Copy my scores and send them to ' + who + '.'
+    : 'Your scores are kept in this browser. After you submit, use Copy my scores and send them to ' + who + '.';
+  $('mode-notice').replaceChildren(el('p',{class:'notice',style:'margin-top:14px',text:msg}));
+  renderAlign();
+}
+
+// ---------- alignment ----------
+const scorerName = {};
+async function resolveNames(){
+  if (!user) return;
+  const ids = team.map(t => t.id);
+  if (!ids.length) return;
+  try { const ps = await user.profiles(ids); ids.forEach(id => scorerName[id] = (ps[id] && ps[id].name) || ''); } catch(e){}
+}
+function label(t, i){ const nm = scorerName[t.id]; const r = t.data.role || 'Scorer'; return nm ? nm + ' (' + r + ')' : r + (team.filter(x => (x.data.role||'Scorer')===r).length>1 ? ' ' + (i+1) : ''); }
+function teamRows(){
+  if (mode === 'shared') return team;
+  return submitted ? [{id:'me', data:state}] : [];
+}
+async function renderAlign(){
+  const body = $('align-body');
+  const canSee = submitted || isOwner;
+  const rows = teamRows();
+  if (!canSee){ body.replaceChildren(el('p',{class:'empty',text:'The team’s scores appear here once you submit your own, so nobody anchors on anyone else.'})); $('copy-results').hidden = true; return; }
+  if (!rows.length){ body.replaceChildren(el('p',{class:'empty',text:'No one has submitted yet. Scores appear here as each person submits.'})); $('copy-results').hidden = true; return; }
+  await resolveNames();
+  const names = rows.map((t,i) => mode==='shared' ? label(t,i) : (state.role || 'You'));
+  const out = [];
+  out.push(el('p',{class:'muted',text: rows.length + (rows.length===1?' person has':' people have') + ' submitted: ' + names.join(', ') + '.'}));
+
+  // profile matrix
+  const thead = el('tr',{}, el('th',{text:'Profile'}), el('th',{text:'Recruiter tier'}), ...names.map(n => el('th',{class:'num',text:n})), el('th',{class:'num',text:'Team'}), el('th',{class:'num',text:'Spread'}), el('th',{text:'Read'}));
+  const tbody = el('tbody');
+  const summary = [];
+  D.profiles.forEach(p => {
+    const avs = rows.map(t => profAvg((t.data.scores||{})[p.id]));
+    const got = avs.filter(x => x!=null);
+    const teamAvg = got.length ? got.reduce((a,b)=>a+b,0)/got.length : null;
+    const spread = got.length>1 ? Math.max(...got)-Math.min(...got) : 0;
+    let flag;
+    if (teamAvg==null) flag = el('span',{class:'flag f-talk',text:'No scores'});
+    else if (got.length>1 && spread>=1.5) flag = el('span',{class:'flag f-talk',text:'You disagree: discuss'});
+    else if (p.tier===1 && teamAvg<3) flag = el('span',{class:'flag f-miss',text:'Scored below the brief'});
+    else if (p.tier===3 && teamAvg>=3.5) flag = el('span',{class:'flag f-ok',text:'Widens the search'});
+    else if (p.tier===2 && teamAvg>=3.5) flag = el('span',{class:'flag f-ok',text:'Worth targeting'});
+    else if (p.tier===2 && teamAvg<2.5) flag = el('span',{class:'flag f-talk',text:'Rule this out'});
+    else flag = el('span',{class:'flag f-ok',text:'Aligned'});
+    summary.push({p, avs, teamAvg, spread, flag: flag.textContent});
+    const [cls,tl] = TIER[p.tier] || ['t2','Tier '+p.tier];
+    tbody.append(el('tr',{}, el('td',{}, el('a',{href:p.url,target:'_blank',rel:'noopener',text:p.name})),
+      el('td',{}, el('span',{class:'tier '+cls,text:tl})),
+      ...avs.map(a => el('td',{class:'num',text:fmt(a)})),
+      el('td',{class:'num'}, el('strong',{text:fmt(teamAvg)})),
+      el('td',{class:'num',text: got.length>1 ? fmt(spread) : '–'}),
+      el('td',{}, flag)));
+  });
+  out.push(el('div',{class:'scroll'}, el('table',{}, el('thead',{},thead), tbody)));
+
+  // criteria by scorer
+  out.push(el('h3',{text:'What each person weighs'}));
+  out.push(el('p',{class:'muted',style:'font-size:14px',text:'Average score each person gave on each criterion, across all six profiles. Big gaps in one row usually mean you mean different things by it.'}));
+  const ct = el('tbody');
+  CRIT.forEach(c => {
+    const vals = rows.map(t => { const v = D.profiles.map(p => ((t.data.scores||{})[p.id]||{})[c.key]).filter(x => typeof x==='number'); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null; });
+    ct.append(el('tr',{}, el('td',{text:c.label}), ...vals.map(v => el('td',{class:'num',text:fmt(v)}))));
+  });
+  out.push(el('div',{class:'scroll'}, el('table',{}, el('thead',{}, el('tr',{}, el('th',{text:'Criterion'}), ...names.map(n => el('th',{class:'num',text:n})))), ct)));
+
+  // comments and answers
+  const notes = el('div',{class:'notes'});
+  D.profiles.forEach(p => {
+    const cs = rows.map((t,i) => [names[i], (t.data.comments||{})[p.id]]).filter(x => x[1] && x[1].trim());
+    if (cs.length) notes.append(el('div',{}, el('h3',{text:p.name}), el('ul',{}, ...cs.map(([n,c]) => el('li',{}, el('strong',{text:n+': '}), c)))));
+  });
+  if (notes.childNodes.length){ out.push(el('h3',{text:'Comments'})); out.push(notes); }
+  const qa = el('div',{class:'notes'});
+  (D.questions||[]).forEach((q,i) => {
+    const as = rows.map((t,j) => [names[j], (t.data.answers||{})['q'+i]]).filter(x => x[1] && x[1].trim());
+    if (as.length) qa.append(el('div',{}, el('h3',{text:(i+1)+'. '+q}), el('ul',{}, ...as.map(([n,a]) => el('li',{}, el('strong',{text:n+': '}), a)))));
+  });
+  if (qa.childNodes.length){ out.push(el('h3',{text:'Trade-off answers'})); out.push(qa); }
+
+  body.replaceChildren(...out);
+  const cr = $('copy-results'); cr.hidden = false;
+  cr.textContent = mode==='shared' ? 'Copy results for the calibration record' : 'Copy my scores';
+  cr.onclick = () => copyText(resultsText(names, rows, summary));
+}
+function resultsText(names, rows, summary){
+  const L = ['Calibration scores: ' + D.role + (D.company?' · '+D.company:''), 'Scorers: ' + names.join(', '), ''];
+  summary.forEach(s => {
+    L.push(s.p.name + ' (' + s.p.title + ', ' + s.p.company + ') · recruiter Tier ' + s.p.tier + (s.p.archetype?' · type '+s.p.archetype:'') + ' · team avg ' + fmt(s.teamAvg) + ' · ' + s.flag);
+    rows.forEach((t,i) => { const sc = (t.data.scores||{})[s.p.id]||{}; const c = (t.data.comments||{})[s.p.id];
+      L.push('  ' + names[i] + ': ' + CRIT.map(k => k.label + ' ' + (sc[k.key]||'-')).join(', ') + (c ? ' · "' + c.trim() + '"' : '')); });
+  });
+  L.push('');
+  (D.questions||[]).forEach((q,i) => { L.push('Q' + (i+1) + ': ' + q); rows.forEach((t,j) => { const a = (t.data.answers||{})['q'+i]; if (a && a.trim()) L.push('  ' + names[j] + ': ' + a.trim()); }); });
+  return L.join('\n');
+}
+function copyText(t){
+  const fb = $('copy-fallback'), btn = $('copy-results'), old = btn.textContent;
+  const done = () => { btn.textContent = 'Copied'; setTimeout(() => btn.textContent = old, 1800); };
+  try { navigator.clipboard.writeText(t).then(done, () => { fb.hidden = false; fb.value = t; fb.focus(); fb.select(); }); }
+  catch(e){ fb.hidden = false; fb.value = t; fb.focus(); fb.select(); }
+}
+
+// ---------- boot ----------
+buildCards(); buildQuestions();
+try { const s = JSON.parse(localStorage.getItem(LKEY) || 'null'); if (s && s.state){ state = Object.assign(state, s.state); submitted = !!s.submitted; } } catch(e){}
+renderScores(); renderAlign(); setStatus('');
+
+(async () => {
+  if (!window.claude || !window.claude.use){ toLocal(); return; }
+  [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+  if (user){ try { isOwner = await user.isOwner(); uid = await user.id(); } catch(e){} }
+  if (!db || !uid){ toLocal(); renderScores(); return; }
+  mode = 'shared';
+  try {
+    const [mine, draft] = await Promise.all([db.doc('scores/'+uid).get(), db.doc('data/users/'+uid+'/draft').get()]);
+    const src = draft.exists ? draft.data() : (mine.exists ? mine.data() : null);
+    if (src) state = {role: src.role||'', scores: JSON.parse(JSON.stringify(src.scores||{})), comments: Object.assign({}, src.comments), answers: Object.assign({}, src.answers)};
+    submitted = mine.exists;
+  } catch(e){}
+  if (isOwner) $('h-internal').textContent = 'Internal only · Recruiter view';
+  renderScores();
+  db.collection('scores').onSnapshot(snap => {
+    team = snap.docs.filter(d => d.exists).map(d => ({id:d.id, data:d.data()}));
+    renderAlign();
+  }, () => {});
+  renderAlign();
+})();
+})();
+</script>
