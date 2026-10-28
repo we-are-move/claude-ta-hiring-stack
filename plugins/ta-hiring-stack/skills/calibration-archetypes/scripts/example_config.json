@@ -1,0 +1,179 @@
+{
+  "title": "Northline AE Calibration",
+  "role": "Account Executive, New Business",
+  "company": "Northline",
+  "location": "London, hybrid",
+  "date": "October 2026",
+  "recruiter": "",
+  "brief": {
+    "summary": "A dedicated hunter in London winning net-new mid-market and enterprise customers for Northline's CRM, across B2B SaaS companies and e-commerce brands.",
+    "must_haves": [
+      "2+ years closing technical SaaS, full cycle",
+      "Wins net-new customers and beats target, repeatably",
+      "Strong discovery on complex or unclear needs",
+      "Clear written handovers at close",
+      "Helps colleagues improve"
+    ],
+    "level": "Mid-level closer. Pure new business, no farming.",
+    "pay_band": "$160k to $200k OTE (about £120k to £150k), 50/50, plus equity"
+  },
+  "archetypes": [
+    {
+      "letter": "A",
+      "name": "The CRM vendor closer",
+      "summary": "Mid-market AE at a big CRM vendor, selling against Northline's competitors every day.",
+      "employers": "HubSpot, Salesforce, Pipedrive, monday.com"
+    },
+    {
+      "letter": "B",
+      "name": "The e-commerce tech hunter",
+      "summary": "Sells software to mid-market and enterprise e-commerce brands.",
+      "employers": "Klaviyo, Shopify Plus, Bloomreach, Algolia"
+    },
+    {
+      "letter": "C",
+      "name": "The revenue tech seller",
+      "summary": "Sells to B2B SaaS sales leaders and RevOps. Outbound-heavy.",
+      "employers": "Gong, Outreach, Salesloft, Clari"
+    },
+    {
+      "letter": "D",
+      "name": "The rising scale-up hunter",
+      "summary": "Strong SMB closer at a London scale-up, ready for bigger deals.",
+      "employers": "Personio, Pleo, Juro, Cognism"
+    }
+  ],
+  "criteria": [
+    {
+      "key": "projects",
+      "label": "Projects",
+      "hint": "Deals and work like ours: net-new, technical SaaS"
+    },
+    {
+      "key": "skills",
+      "label": "Skills",
+      "hint": "Hunting, discovery, full-cycle closing"
+    },
+    {
+      "key": "level",
+      "label": "Level",
+      "hint": "Mid-level closer, inside the pay band"
+    },
+    {
+      "key": "employers",
+      "label": "Employers",
+      "hint": "Relevant past and current companies"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "p1",
+      "name": "Mike Richardson",
+      "title": "Senior Account Executive (Mid-Market)",
+      "company": "HubSpot",
+      "url": "https://www.linkedin.com/in/mike-richardson-94945a11b/",
+      "since": "In this role since Jun 2025",
+      "tier": 1,
+      "archetype": "A",
+      "note": "Sells CRM to mid-market buyers against Northline's competitors today.",
+      "context": "Sells to mid-market customers in the UK and Ireland. MEDDICC trained. Uses AI tools (ChatGPT, Claude, Gemini, Glean) in his sales process.",
+      "context_source": "role"
+    },
+    {
+      "id": "p2",
+      "name": "James Kilbey",
+      "title": "Account Executive, Commercial",
+      "company": "Klaviyo",
+      "url": "https://www.linkedin.com/in/jameskilbey/",
+      "since": "In this role since Jan 2026",
+      "tier": 2,
+      "archetype": "B",
+      "note": "Borderline: sells to e-commerce brands, but marketing tech, not CRM.",
+      "context": "Grew at Klaviyo from outbound BDR to senior BDR, then Account Executive (Entrepreneur) and now Commercial AE.",
+      "context_source": "profile",
+      "before": "Medical device recruitment and consulting."
+    },
+    {
+      "id": "p3",
+      "name": "Will Rushworth",
+      "title": "Account Executive",
+      "company": "Clari",
+      "url": "https://www.linkedin.com/in/willrushworth/",
+      "since": "In this role since Apr 2025",
+      "tier": 1,
+      "archetype": "C",
+      "note": "Sells to B2B SaaS sales leaders, the exact buyer in vertical one.",
+      "context": "New business and account management in the EMEA mid-market; landed three new logos. Since Feb 2026, a new business-only mid-market role after the Salesloft and Clari merger.",
+      "context_source": "role"
+    },
+    {
+      "id": "p4",
+      "name": "Katherine Hunter",
+      "title": "Senior Account Executive",
+      "company": "Bloomreach",
+      "url": "https://www.linkedin.com/in/katherine-hunter-194782137/",
+      "since": "In this role since Nov 2025",
+      "tier": 3,
+      "archetype": "B",
+      "note": "Edge case: enterprise e-commerce platform seller. Would widen the brief if liked.",
+      "context": "Her profile focuses on helping brands build omnichannel, personalised customer experiences. Her role description only describes Bloomreach's product.",
+      "context_source": "profile"
+    },
+    {
+      "id": "p5",
+      "name": "Charlie Cutting",
+      "title": "Mid Market Account Executive",
+      "company": "monday.com",
+      "url": "https://www.linkedin.com/in/charlie-cutting/",
+      "since": "In this role since Mar 2026",
+      "tier": 1,
+      "archetype": "A",
+      "note": "Mid-market new business at a CRM and work management vendor.",
+      "context": "No detail on his profile beyond his title.",
+      "context_source": "profile"
+    },
+    {
+      "id": "p6",
+      "name": "Daniel Martin",
+      "title": "Account Executive",
+      "company": "Pleo",
+      "url": "https://www.linkedin.com/in/daniel-martin-9a9715216/",
+      "since": "In this role since Apr 2026",
+      "tier": 2,
+      "archetype": "D",
+      "note": "Borderline: strong hunter, but smaller SMB deals and no CRM.",
+      "context": "Helps finance and business teams get real-time control of company spending.",
+      "context_source": "profile",
+      "before": "Account Executive and sales development at Navan; recruitment at SOAP."
+    }
+  ],
+  "questions": [
+    "If you can't have both CRM category experience and new business wins in one of our target verticals, which matters more?",
+    "Which vertical should this hire make progress in first: B2B SaaS or e-commerce?",
+    "Enterprise closer from day one, or a strong mid-market closer who grows into enterprise?",
+    "How much pipeline must this person generate alone? Would you hire someone who has never self-sourced most of it?"
+  ],
+  "method": "The candidate types come from the Northline brief and research into how comparable new business AE roles are advertised and staffed in London: job ads from CRM vendors and e-commerce and revenue-tech SaaS companies, recruiter ads for mid-market and enterprise AE roles, and commentary on how AI is changing the AE role in 2026.\n\nThe six profiles were found with Clay's public professional data, searching current London-based staff at each type's typical employers by title. They were matched on current title, employer and location only. Their closing record and suitability have not been checked, and nobody has been contacted. Three are close to the brief, two are borderline (close, but missing one thing the brief asks for), and one is an edge case from a different background that would widen the search if the team likes it.",
+  "sources": [
+    {
+      "title": "Freshworks: Enterprise Account Executive, London",
+      "url": "https://www.itjobswatch.co.uk/jv/Freshworks/Enterprise-Account-Executive-Job-London-UK-4vomxo?jr=ha8-0-0"
+    },
+    {
+      "title": "monday.com: CRM New Business Account Executive, UKI",
+      "url": "https://builtindublin.ie/job/crm-new-business-account-executive-uki/6662440"
+    },
+    {
+      "title": "HubSpot: Mid-Market Account Executive, UK and Ireland",
+      "url": "https://builtin.com/job/mid-market-account-executive-uk-i-accepting-future-applications/6216976"
+    },
+    {
+      "title": "SaaStr: The 2026 sales team, what it actually looks like",
+      "url": "https://www.saastr.com/the-2026-sales-team-what-it-actually-looks-like-and-what-it-doesnt"
+    },
+    {
+      "title": "Clay people search (public professional data), October 2026",
+      "url": ""
+    }
+  ]
+}
